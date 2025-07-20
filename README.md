@@ -10,6 +10,7 @@ A Next.js application that allows you to search for Pokémon cards using the Pok
 - 💾 Persistent storage using SQLite database
 - 📱 Responsive design with Tailwind CSS
 - ⚡ Fast and modern UI with Next.js 15
+- 💰 Track portfolio value with real-time price updates
 
 ## Prerequisites
 
@@ -45,12 +46,18 @@ A Next.js application that allows you to search for Pokémon cards using the Pok
    POKEMON_TCG_API_KEY=your_actual_api_key_here
    ```
 
-5. **Run the development server**
+5. **Database Setup**
+   - The database will be automatically created when you first run the app
+   - Database file: `pokemon_portfolio.db` (created in project root)
+   - Schema is defined in `database-schema.sql`
+
+
+6. **Run the development server**
    ```bash
    npm run dev
    ```
 
-6. **Open your browser**
+7. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Usage
@@ -66,13 +73,17 @@ A Next.js application that allows you to search for Pokémon cards using the Pok
 2. View all cards in your collection
 3. See card quantities, prices, and details
 4. Click the red trash icon to remove cards
+5. Click the blue edit icon to modify quantities and prices
+6. Use "Update Values" to fetch latest market prices
 
 ## API Endpoints
 
 - `GET /api/search?q=<query>` - Search for Pokémon cards
 - `GET /api/portfolio` - Get all portfolio cards
 - `POST /api/portfolio` - Add a card to portfolio
+- `PUT /api/portfolio` - Update a card in portfolio
 - `DELETE /api/portfolio?card_id=<id>` - Remove a card from portfolio
+- `POST /api/portfolio/update-prices` - Update all card prices from API
 - `GET /api/history` - Get search history
 
 ## Database Schema
@@ -117,6 +128,12 @@ src/
 └── types/            # TypeScript definitions
 ```
 
+### Database Management
+- **Local Development**: Database is automatically created on first run
+- **Production**: Consider using a more robust database like PostgreSQL
+- **Backup**: Regularly backup your `pokemon_portfolio.db` file
+- **Migration**: Use `database-schema.sql` for reference when setting up new instances
+
 ### Available Scripts
 
 - `npm run dev` - Start development server
@@ -131,6 +148,10 @@ src/
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
 
 ## Acknowledgments
 
