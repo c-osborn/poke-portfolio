@@ -84,7 +84,7 @@ export default function CardGrid({
                 </div>
               </div>
               <div className="p-4">
-                <h3 className="font-semibold text-lg mb-2 truncate">{portfolioCard.name}</h3>
+                <h3 className="font-semibold text-lg mb-2 truncate text-gray-900">{portfolioCard.name}</h3>
                 <p className="text-gray-600 text-sm mb-1">{portfolioCard.set_name}</p>
                 {portfolioCard.rarity && (
                   <p className="text-gray-500 text-xs mb-2">{portfolioCard.rarity}</p>
@@ -122,7 +122,7 @@ export default function CardGrid({
                 )}
               </div>
               <div className="p-4">
-                <h3 className="font-semibold text-lg mb-2 truncate">{pokemonCard.name}</h3>
+                <h3 className="font-semibold text-lg mb-2 truncate text-gray-900">{pokemonCard.name}</h3>
                 <p className="text-gray-600 text-sm mb-1">{pokemonCard.set.name}</p>
                 {pokemonCard.rarity && (
                   <p className="text-gray-500 text-xs mb-2">{pokemonCard.rarity}</p>
