@@ -7,7 +7,20 @@ import CardGrid from '@/components/CardGrid';
 import EditCardModal from '@/components/EditCardModal';
 import PortfolioSummary from '@/components/PortfolioSummary';
 import Toast from '@/components/Toast';
+import Pagination from '@/components/Pagination';
+import SearchResultsHeader from '@/components/SearchResultsHeader';
+import SearchSuggestions from '@/components/SearchSuggestions';
 import { PokemonCard, PortfolioCard } from '@/types';
+
+interface SearchFilters {
+  name?: string;
+  set?: string;
+  rarity?: string;
+  type?: string;
+  supertype?: string;
+  number?: string;
+  artist?: string;
+}
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'search' | 'portfolio'>('search');
@@ -17,6 +30,11 @@ export default function Home() {
   const [isLoadingPortfolio, setIsLoadingPortfolio] = useState(false);
   const [editingCard, setEditingCard] = useState<PortfolioCard | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [sortBy, setSortBy] = useState('name');
+  const [currentSearch, setCurrentSearch] = useState<{ query: string; filters: SearchFilters }>({ query: '', filters: {} });
   const [toast, setToast] = useState<{
     message: string;
     isVisible: boolean;
@@ -80,23 +98,62 @@ export default function Home() {
     }
   };
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (query: string, filters: SearchFilters = {}, page: number = 1, sort: string = sortBy) => {
     setIsSearching(true);
+    setCurrentPage(page);
+    setCurrentSearch({ query, filters });
+    setSortBy(sort);
+    
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      // Build URL with query parameters
+      const params = new URLSearchParams();
+      if (query.trim()) {
+        params.append('q', query.trim());
+      }
+      
+      // Add filters to URL params
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value?.trim()) {
+          params.append(key, value.trim());
+        }
+      });
+      
+      // Add pagination and sorting
+      params.append('page', page.toString());
+      params.append('pageSize', '20');
+      params.append('orderBy', sort);
+      
+      const response = await fetch(`/api/search?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
         setSearchResults(data.data || []);
+        
+        // Calculate total pages and count
+        const total = data.totalCount || data.data?.length || 0;
+        setTotalCount(total);
+        setTotalPages(Math.ceil(total / 20));
       } else {
         console.error('Search failed');
         setSearchResults([]);
+        setTotalPages(1);
+        setTotalCount(0);
       }
     } catch (error) {
       console.error('Error searching cards:', error);
       setSearchResults([]);
+      setTotalPages(1);
+      setTotalCount(0);
     } finally {
       setIsSearching(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    handleSearch(currentSearch.query, currentSearch.filters, page, sortBy);
+  };
+
+  const handleSortChange = (newSortBy: string) => {
+    handleSearch(currentSearch.query, currentSearch.filters, 1, newSortBy);
   };
 
   const handleAddToPortfolio = async (card: PokemonCard) => {
@@ -191,9 +248,49 @@ export default function Home() {
     setEditingCard(null);
   };
 
+  const handleReset = () => {
+    setSearchResults([]);
+    setCurrentPage(1);
+    setTotalPages(1);
+    setTotalCount(0);
+    setSortBy('name');
+    setCurrentSearch({ query: '', filters: {} });
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    // Parse the suggestion to determine if it's a filter or name search
+    if (suggestion.includes(':')) {
+      // It's a filter, parse it
+      const [filterType, filterValue] = suggestion.split(':');
+      const filters: SearchFilters = {};
+      
+      switch (filterType) {
+        case 'set':
+          filters.set = filterValue;
+          break;
+        case 'supertype':
+          filters.supertype = filterValue;
+          break;
+        case 'rarity':
+          filters.rarity = filterValue;
+          break;
+        case 'number':
+          filters.number = filterValue;
+          break;
+        default:
+          break;
+      }
+      
+      handleSearch('', filters);
+    } else {
+      // It's a name search
+      handleSearch(suggestion);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <Navigation activeTab={activeTab} onTabChange={setActiveTab} onReset={handleReset} />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'search' ? (
@@ -208,14 +305,32 @@ export default function Home() {
               <SearchBar onSearch={handleSearch} isLoading={isSearching} />
             </div>
             
+            {searchResults.length === 0 && !isSearching && (
+              <div className="mt-12">
+                <SearchSuggestions onSuggestionClick={handleSuggestionClick} />
+              </div>
+            )}
+            
             {searchResults.length > 0 && (
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Search Results ({searchResults.length})
-                </h3>
+                <SearchResultsHeader
+                  resultCount={searchResults.length}
+                  totalCount={totalCount}
+                  currentPage={currentPage}
+                  pageSize={20}
+                  sortBy={sortBy}
+                  onSortChange={handleSortChange}
+                  isLoading={isSearching}
+                />
                 <CardGrid
                   cards={searchResults}
                   onAddToPortfolio={handleAddToPortfolio}
+                  isLoading={isSearching}
+                />
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
                   isLoading={isSearching}
                 />
               </div>
