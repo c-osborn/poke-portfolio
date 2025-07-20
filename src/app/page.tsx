@@ -59,6 +59,27 @@ export default function Home() {
     }
   };
 
+  const handleUpdatePrices = async () => {
+    try {
+      const response = await fetch('/api/portfolio/update-prices', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        showToast(result.message, 'success');
+        // Reload portfolio to show updated prices
+        await loadPortfolio();
+      } else {
+        const error = await response.json();
+        showToast(error.error || 'Failed to update prices', 'error');
+      }
+    } catch (error) {
+      console.error('Error updating prices:', error);
+      showToast('Failed to update prices', 'error');
+    }
+  };
+
   const handleSearch = async (query: string) => {
     setIsSearching(true);
     try {
@@ -212,7 +233,10 @@ export default function Home() {
             </div>
             
             {portfolioCards.length > 0 && (
-              <PortfolioSummary cards={portfolioCards} />
+              <PortfolioSummary 
+                cards={portfolioCards} 
+                onUpdatePrices={handleUpdatePrices}
+              />
             )}
             
             <CardGrid
