@@ -24,3 +24,111 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Modern logo animations */
+@keyframes bounce-coin-1 {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.1);
+  }
+}
+
+@keyframes bounce-coin-2 {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
+
+@keyframes sparkle-1 {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes sparkle-2 {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sparkle-3 {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  33% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  66% {
+    opacity: 0.2;
+    transform: scale(0.4);
+  }
+}
+
+@keyframes text-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6));
+  }
+}
+
+@keyframes text-glow-delayed {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(37, 99, 235, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.6));
+  }
+}
+
+/* Animation classes */
+.animate-bounce-coin-1 {
+  animation: bounce-coin-1 2.2s ease-in-out infinite;
+}
+
+.animate-bounce-coin-2 {
+  animation: bounce-coin-2 1.8s ease-in-out infinite;
+}
+
+.animate-sparkle-1 {
+  animation: sparkle-1 2.5s ease-in-out infinite;
+}
+
+.animate-sparkle-2 {
+  animation: sparkle-2 2.5s ease-in-out infinite;
+}
+
+.animate-sparkle-3 {
+  animation: sparkle-3 3s ease-in-out infinite;
+}
+
+.animate-text-glow {
+  animation: text-glow 2.5s ease-in-out infinite;
+}
+
+.animate-text-glow-delayed {
+  animation: text-glow-delayed 2.5s ease-in-out infinite;
+}
+
+/* Utility classes for delays */
+.delay-150 {
+  animation-delay: 0.15s;
+}
