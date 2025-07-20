@@ -21,7 +21,7 @@ A Next.js application that allows you to search for Pokémon cards using the Pok
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/c-osborn/poke-portfolio.git
    cd poke-portfolio
    ```
 
@@ -131,10 +131,6 @@ src/
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
-
-## License
-
-MIT License - see LICENSE file for details
 
 ## Acknowledgments
 
