@@ -14,34 +14,48 @@ interface SearchFilters {
 function buildSearchQuery(query: string, filters: SearchFilters): string {
   const conditions: string[] = [];
   
+  // Parse the query for name + number pattern
+  const nameNumberPattern = /^(.+?)\s+(\d+)$/;
+  const match = query.trim().match(nameNumberPattern);
+  
+  let searchQuery = query.trim();
+  let searchFilters = { ...filters };
+  
+  if (match) {
+    // Extract name and number from the pattern
+    const [, name, number] = match;
+    searchQuery = name.trim();
+    searchFilters.number = number;
+  }
+  
   // Add name search if provided
-  if (query.trim()) {
-    conditions.push(`name:"${query.trim()}"`);
+  if (searchQuery.trim()) {
+    conditions.push(`name:"${searchQuery.trim()}"`);
   }
   
   // Add set filter
-  if (filters.set?.trim()) {
-    conditions.push(`set.name:"${filters.set.trim()}"`);
+  if (searchFilters.set?.trim()) {
+    conditions.push(`set.name:"${searchFilters.set.trim()}"`);
   }
   
   // Add rarity filter
-  if (filters.rarity?.trim()) {
-    conditions.push(`rarity:"${filters.rarity.trim()}"`);
+  if (searchFilters.rarity?.trim()) {
+    conditions.push(`rarity:"${searchFilters.rarity.trim()}"`);
   }
   
   // Add type filter
-  if (filters.type?.trim()) {
-    conditions.push(`types:"${filters.type.trim()}"`);
+  if (searchFilters.type?.trim()) {
+    conditions.push(`types:"${searchFilters.type.trim()}"`);
   }
   
   // Add supertype filter (Pokémon, Trainer, Energy)
-  if (filters.supertype?.trim()) {
-    conditions.push(`supertype:"${filters.supertype.trim()}"`);
+  if (searchFilters.supertype?.trim()) {
+    conditions.push(`supertype:"${searchFilters.supertype.trim()}"`);
   }
   
   // Add number filter (supports operators like >, <, >=, <=)
-  if (filters.number?.trim()) {
-    const numberValue = filters.number.trim();
+  if (searchFilters.number?.trim()) {
+    const numberValue = searchFilters.number.trim();
     if (numberValue.match(/^[><=]+/)) {
       // If it starts with an operator, use as-is
       conditions.push(`number:${numberValue}`);
@@ -52,8 +66,8 @@ function buildSearchQuery(query: string, filters: SearchFilters): string {
   }
   
   // Add artist filter
-  if (filters.artist?.trim()) {
-    conditions.push(`artist:"${filters.artist.trim()}"`);
+  if (searchFilters.artist?.trim()) {
+    conditions.push(`artist:"${searchFilters.artist.trim()}"`);
   }
   
   // If no conditions, return empty string (will search all cards)

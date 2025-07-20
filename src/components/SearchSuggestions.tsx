@@ -69,22 +69,16 @@ export default function SearchSuggestions({ onSuggestionClick }: SearchSuggestio
             Rare Holo
           </button>
           <button
-            onClick={() => onSuggestionClick('number:1')}
+            onClick={() => onSuggestionClick('Pikachu 25')}
             className="px-3 py-1 text-sm bg-red-50 text-red-700 rounded-full hover:bg-red-100 transition-colors"
           >
-            #1 Cards
+            Pikachu #25
           </button>
           <button
-            onClick={() => onSuggestionClick('number:25')}
+            onClick={() => onSuggestionClick('Charizard 4')}
             className="px-3 py-1 text-sm bg-red-50 text-red-700 rounded-full hover:bg-red-100 transition-colors"
           >
-            #25 Cards
-          </button>
-          <button
-            onClick={() => onSuggestionClick('number:150')}
-            className="px-3 py-1 text-sm bg-red-50 text-red-700 rounded-full hover:bg-red-100 transition-colors"
-          >
-            #150 Cards
+            Charizard #4
           </button>
         </div>
       </div>

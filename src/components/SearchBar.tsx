@@ -25,8 +25,23 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (query.trim() || Object.keys(filters).some(key => filters[key as keyof SearchFilters])) {
-      onSearch(query.trim(), filters);
+    
+    // Parse the query for name + number pattern
+    const nameNumberPattern = /^(.+?)\s+(\d+)$/;
+    const match = query.trim().match(nameNumberPattern);
+    
+    let searchQuery = query.trim();
+    let searchFilters = { ...filters };
+    
+    if (match) {
+      // Extract name and number from the pattern
+      const [, name, number] = match;
+      searchQuery = name.trim();
+      searchFilters.number = number;
+    }
+    
+    if (searchQuery || Object.keys(searchFilters).some(key => searchFilters[key as keyof SearchFilters])) {
+      onSearch(searchQuery, searchFilters);
     }
   };
 
