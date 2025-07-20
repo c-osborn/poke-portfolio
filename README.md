@@ -4,13 +4,13 @@ A Next.js application that allows you to search for Pokémon cards using the Pok
 
 ## Features
 
-- 🔍 Search Pokémon cards using the official Pokémon TCG API
-- 📦 Add cards to your personal portfolio
-- 🗂️ View and manage your card collection
-- 💾 Persistent storage using SQLite database
-- 📱 Responsive design with Tailwind CSS
-- ⚡ Fast and modern UI with Next.js 15
-- 💰 Track portfolio value with real-time price updates
+- Search Pokémon cards using the official Pokémon TCG API
+- Add cards to your personal portfolio
+- View and manage your card collection
+- Persistent storage using SQLite database
+- Responsive design with Tailwind CSS
+- Fast and modern UI with Next.js 15
+- Track portfolio value with real-time price updates
 
 ## Prerequisites
 
@@ -130,8 +130,6 @@ src/
 
 ### Database Management
 - **Local Development**: Database is automatically created on first run
-- **Production**: Consider using a more robust database like PostgreSQL
-- **Backup**: Regularly backup your `pokemon_portfolio.db` file
 - **Migration**: Use `database-schema.sql` for reference when setting up new instances
 
 ### Available Scripts
@@ -148,10 +146,6 @@ src/
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
-
-## License
-
-MIT License - see LICENSE file for details
 
 ## Acknowledgments
 
