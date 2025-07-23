@@ -50,7 +50,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1 || isLoading}
-        className="flex items-center px-3 py-2 text-sm font-medium text-theme-secondary bg-theme-card border border-theme-border rounded-md hover:bg-theme-card disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
+        className="flex items-center px-3 py-2 text-sm font-medium text-theme-secondary bg-theme-card border border-theme-border rounded-md hover:bg-theme-card hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 theme-transition"
       >
         <ChevronLeft className="w-4 h-4 mr-1" />
         Previous
@@ -61,12 +61,12 @@ export default function Pagination({
           key={index}
           onClick={() => typeof page === 'number' ? onPageChange(page) : null}
           disabled={page === '...' || isLoading}
-          className={`px-3 py-2 text-sm font-medium rounded-md transition-colors theme-transition ${
+          className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 theme-transition ${
             page === currentPage
-              ? 'bg-theme-primary text-white'
+              ? 'bg-theme-primary text-white hover:scale-105'
               : page === '...'
               ? 'text-theme-muted cursor-default'
-              : 'text-theme-primary bg-theme-card border border-theme-border hover:bg-theme-card'
+              : 'text-theme-primary bg-theme-card border border-theme-border hover:bg-theme-card hover:scale-105'
           }`}
         >
           {page}
@@ -76,7 +76,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages || isLoading}
-        className="flex items-center px-3 py-2 text-sm font-medium text-theme-secondary bg-theme-card border border-theme-border rounded-md hover:bg-theme-card disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
+        className="flex items-center px-3 py-2 text-sm font-medium text-theme-secondary bg-theme-card border border-theme-border rounded-md hover:bg-theme-card hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 theme-transition"
       >
         Next
         <ChevronRight className="w-4 h-4 ml-1" />

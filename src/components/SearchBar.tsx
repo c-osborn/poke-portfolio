@@ -88,7 +88,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
             <button
               type="submit"
               disabled={isLoading || !hasActiveFilters}
-              className="bg-theme-primary text-white px-4 py-1 rounded-md hover:bg-theme-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
+              className="bg-theme-primary text-white px-4 py-1 rounded-md hover:bg-theme-primary-hover hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 theme-transition"
             >
               {isLoading ? 'Searching...' : 'Search'}
             </button>
@@ -180,7 +180,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
             <button
               type="button"
               onClick={clearFilters}
-              className="px-4 py-2 text-theme-secondary hover:text-theme-primary transition-colors theme-transition"
+              className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:scale-105 transition-all duration-200 theme-transition"
             >
               Clear All
             </button>
@@ -188,7 +188,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
               type="button"
               onClick={() => onSearch(query, filters)}
               disabled={isLoading}
-              className="bg-theme-primary text-white px-4 py-2 rounded-md hover:bg-theme-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
+              className="bg-theme-primary text-white px-4 py-2 rounded-md hover:bg-theme-primary-hover hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 theme-transition"
             >
               Apply Filters
             </button>

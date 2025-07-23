@@ -38,7 +38,7 @@ export default function PortfolioSummary({ cards, onUpdatePrices }: PortfolioSum
         <button
           onClick={handleUpdatePrices}
           disabled={isUpdating}
-          className="flex items-center space-x-2 px-4 py-2 bg-theme-primary text-white rounded-md hover:bg-theme-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
+          className="flex items-center space-x-2 px-4 py-2 bg-theme-primary text-white rounded-md hover:bg-theme-primary-hover hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 theme-transition"
         >
           <RefreshCw className={`w-4 h-4 ${isUpdating ? 'animate-spin' : ''}`} />
           <span>{isUpdating ? 'Updating...' : 'Update Values'}</span>

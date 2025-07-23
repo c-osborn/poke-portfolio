@@ -29,7 +29,7 @@ export default function Navigation({ activeTab, onTabChange, onReset }: Navigati
             {/* Show only the active tab button */}
             <button
               onClick={() => onTabChange(activeTab === 'search' ? 'portfolio' : 'search')}
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors theme-transition bg-theme-primary text-white shadow-theme"
+              className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 theme-transition bg-theme-primary text-white shadow-theme hover:bg-theme-primary-hover hover:scale-105"
             >
               {activeTab === 'search' ? (
                 <>

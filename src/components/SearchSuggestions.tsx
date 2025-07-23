@@ -24,7 +24,7 @@ export default function SearchSuggestions({ onSuggestionClick }: SearchSuggestio
             <button
               key={pokemon}
               onClick={() => onSuggestionClick(pokemon)}
-              className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card transition-colors theme-transition"
+              className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card hover:scale-105 transition-all duration-200 theme-transition"
             >
               {pokemon}
             </button>
@@ -39,7 +39,7 @@ export default function SearchSuggestions({ onSuggestionClick }: SearchSuggestio
             <button
               key={set}
               onClick={() => onSuggestionClick(`set:${set}`)}
-              className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card transition-colors theme-transition"
+              className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card hover:scale-105 transition-all duration-200 theme-transition"
             >
               {set}
             </button>
@@ -52,31 +52,31 @@ export default function SearchSuggestions({ onSuggestionClick }: SearchSuggestio
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => onSuggestionClick('supertype:Pokémon')}
-            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card transition-colors theme-transition"
+            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card hover:scale-105 transition-all duration-200 theme-transition"
           >
             Pokémon Cards
           </button>
           <button
             onClick={() => onSuggestionClick('supertype:Trainer')}
-            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card transition-colors theme-transition"
+            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card hover:scale-105 transition-all duration-200 theme-transition"
           >
             Trainer Cards
           </button>
           <button
             onClick={() => onSuggestionClick('rarity:Rare Holo')}
-            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card transition-colors theme-transition"
+            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card hover:scale-105 transition-all duration-200 theme-transition"
           >
             Rare Holo
           </button>
           <button
             onClick={() => onSuggestionClick('Pikachu 25')}
-            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card transition-colors theme-transition"
+            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card hover:scale-105 transition-all duration-200 theme-transition"
           >
             Pikachu #25
           </button>
           <button
             onClick={() => onSuggestionClick('Charizard 4')}
-            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card transition-colors theme-transition"
+            className="px-3 py-1 text-sm bg-theme-card border border-theme-border text-theme-primary rounded-full hover:bg-theme-card hover:scale-105 transition-all duration-200 theme-transition"
           >
             Charizard #4
           </button>

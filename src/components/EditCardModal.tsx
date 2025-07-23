@@ -103,14 +103,14 @@ export default function EditCardModal({ card, isOpen, onClose, onSave }: EditCar
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-theme-secondary hover:text-theme-primary transition-colors theme-transition"
+              className="px-4 py-2 text-theme-secondary hover:text-theme-primary hover:scale-105 transition-all duration-200 theme-transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 bg-theme-primary text-white rounded-md hover:bg-theme-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
+              className="px-4 py-2 bg-theme-primary text-white rounded-md hover:bg-theme-primary-hover hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 theme-transition"
             >
               {isLoading ? 'Saving...' : 'Save Changes'}
             </button>

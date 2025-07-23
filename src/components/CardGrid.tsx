@@ -59,7 +59,7 @@ export default function CardGrid({
                     target.src = '/placeholder-card.png';
                   }}
                 />
-                <div className="absolute top-2 right-2 bg-theme-primary text-white px-2 py-1 rounded-full text-sm font-bold">
+                <div className="absolute top-2 right-2 bg-theme-primary text-white px-2 py-1 rounded-full text-sm font-bold hover:bg-theme-primary-hover transition-colors theme-transition">
                   x{portfolioCard.quantity}
                 </div>
               </div>
@@ -79,7 +79,7 @@ export default function CardGrid({
                   {onEditCard && (
                     <button
                       onClick={() => onEditCard(portfolioCard)}
-                      className="bg-theme-primary text-white p-2 rounded-full hover:bg-theme-primary-hover transition-colors theme-transition"
+                      className="bg-theme-primary text-white p-2 rounded-full hover:bg-theme-primary-hover hover:scale-105 transition-all duration-200 theme-transition"
                       title="Edit card"
                     >
                       <Edit className="w-4 h-4" />
@@ -88,7 +88,7 @@ export default function CardGrid({
                   {onRemoveFromPortfolio && (
                     <button
                       onClick={() => onRemoveFromPortfolio(portfolioCard.card_id)}
-                      className="bg-theme-error text-white p-2 rounded-full hover:opacity-80 transition-colors theme-transition"
+                      className="bg-theme-error text-white p-2 rounded-full hover:opacity-80 hover:scale-105 transition-all duration-200 theme-transition"
                       title="Remove from portfolio"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -129,7 +129,7 @@ export default function CardGrid({
                   <div className="flex justify-end">
                     <button
                       onClick={() => onAddToPortfolio(searchCard)}
-                      className="bg-theme-success text-white p-2 rounded-full hover:opacity-80 transition-colors theme-transition"
+                      className="bg-theme-success text-white p-2 rounded-full hover:opacity-80 hover:scale-105 transition-all duration-200 theme-transition"
                       title="Add to portfolio"
                     >
                       <Plus className="w-4 h-4" />
