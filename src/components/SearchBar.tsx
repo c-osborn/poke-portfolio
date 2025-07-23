@@ -68,18 +68,18 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for Pokémon cards by name, set, rarity, type..."
-            className="w-full px-4 py-3 pl-12 pr-24 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+            className="w-full px-4 py-3 pl-12 pr-24 text-lg border border-theme-input rounded-lg focus:ring-2 focus:ring-theme-primary focus:border-transparent text-theme-primary placeholder-theme-muted bg-theme-input theme-transition"
             disabled={isLoading}
           />
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-theme-muted w-5 h-5" />
           <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex space-x-2">
             <button
               type="button"
               onClick={() => setShowFilters(!showFilters)}
-              className={`p-2 rounded-md transition-colors ${
+              className={`p-2 rounded-md transition-colors theme-transition ${
                 showFilters 
-                  ? 'bg-blue-100 text-blue-600' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-theme-primary text-white' 
+                  : 'bg-theme-card text-theme-secondary hover:text-theme-primary hover:bg-theme-card'
               }`}
               title="Advanced filters"
             >
@@ -88,7 +88,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
             <button
               type="submit"
               disabled={isLoading || !hasActiveFilters}
-              className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="bg-theme-primary text-white px-4 py-1 rounded-md hover:bg-theme-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
             >
               {isLoading ? 'Searching...' : 'Search'}
             </button>
@@ -97,138 +97,102 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
       </form>
 
       {showFilters && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-theme-card border border-theme-border rounded-lg p-6 shadow-theme theme-transition">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Advanced Filters</h3>
+            <h3 className="text-lg font-semibold text-theme-primary">Advanced Filters</h3>
             <button
               onClick={clearFilters}
-              className="text-sm text-gray-500 hover:text-gray-700 flex items-center space-x-1"
+              className="text-theme-secondary hover:text-theme-primary transition-colors theme-transition"
             >
-              <X className="w-4 h-4" />
-              <span>Clear all</span>
+              <X className="w-5 h-5" />
             </button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Set</label>
+              <label className="block text-sm font-medium text-theme-secondary mb-2">Set</label>
               <input
                 type="text"
                 value={filters.set || ''}
                 onChange={(e) => updateFilter('set', e.target.value)}
-                placeholder="e.g., Base Set, Sword & Shield"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                placeholder="e.g., Base Set, Jungle"
+                className="w-full px-3 py-2 border border-theme-input rounded-md focus:ring-2 focus:ring-theme-primary focus:border-transparent text-theme-primary placeholder-theme-muted bg-theme-input theme-transition"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Rarity</label>
-              <select
+              <label className="block text-sm font-medium text-theme-secondary mb-2">Rarity</label>
+              <input
+                type="text"
                 value={filters.rarity || ''}
                 onChange={(e) => updateFilter('rarity', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-              >
-                <option value="">Any rarity</option>
-                <option value="Common">Common</option>
-                <option value="Uncommon">Uncommon</option>
-                <option value="Rare">Rare</option>
-                <option value="Rare Holo">Rare Holo</option>
-                <option value="Rare Ultra">Rare Ultra</option>
-                <option value="Secret Rare">Secret Rare</option>
-                <option value="Promo">Promo</option>
-              </select>
+                placeholder="e.g., Common, Rare, Holo"
+                className="w-full px-3 py-2 border border-theme-input rounded-md focus:ring-2 focus:ring-theme-primary focus:border-transparent text-theme-primary placeholder-theme-muted bg-theme-input theme-transition"
+              />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-              <select
+              <label className="block text-sm font-medium text-theme-secondary mb-2">Type</label>
+              <input
+                type="text"
                 value={filters.type || ''}
                 onChange={(e) => updateFilter('type', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-              >
-                <option value="">Any type</option>
-                <option value="Colorless">Colorless</option>
-                <option value="Darkness">Darkness</option>
-                <option value="Dragon">Dragon</option>
-                <option value="Fairy">Fairy</option>
-                <option value="Fighting">Fighting</option>
-                <option value="Fire">Fire</option>
-                <option value="Grass">Grass</option>
-                <option value="Lightning">Lightning</option>
-                <option value="Metal">Metal</option>
-                <option value="Psychic">Psychic</option>
-                <option value="Water">Water</option>
-              </select>
+                placeholder="e.g., Fire, Water, Grass"
+                className="w-full px-3 py-2 border border-theme-input rounded-md focus:ring-2 focus:ring-theme-primary focus:border-transparent text-theme-primary placeholder-theme-muted bg-theme-input theme-transition"
+              />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Card Type</label>
-              <select
+              <label className="block text-sm font-medium text-theme-secondary mb-2">Supertype</label>
+              <input
+                type="text"
                 value={filters.supertype || ''}
                 onChange={(e) => updateFilter('supertype', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-              >
-                <option value="">Any card type</option>
-                <option value="Pokémon">Pokémon</option>
-                <option value="Trainer">Trainer</option>
-                <option value="Energy">Energy</option>
-              </select>
+                placeholder="e.g., Pokémon, Trainer, Energy"
+                className="w-full px-3 py-2 border border-theme-input rounded-md focus:ring-2 focus:ring-theme-primary focus:border-transparent text-theme-primary placeholder-theme-muted bg-theme-input theme-transition"
+              />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Number</label>
+              <label className="block text-sm font-medium text-theme-secondary mb-2">Card Number</label>
               <input
                 type="text"
                 value={filters.number || ''}
                 onChange={(e) => updateFilter('number', e.target.value)}
-                placeholder="e.g., 1, 25, 150"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                placeholder="e.g., 1, 25, 100"
+                className="w-full px-3 py-2 border border-theme-input rounded-md focus:ring-2 focus:ring-theme-primary focus:border-transparent text-theme-primary placeholder-theme-muted bg-theme-input theme-transition"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Artist</label>
+              <label className="block text-sm font-medium text-theme-secondary mb-2">Artist</label>
               <input
                 type="text"
                 value={filters.artist || ''}
                 onChange={(e) => updateFilter('artist', e.target.value)}
-                placeholder="Artist name"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                placeholder="e.g., Ken Sugimori"
+                className="w-full px-3 py-2 border border-theme-input rounded-md focus:ring-2 focus:ring-theme-primary focus:border-transparent text-theme-primary placeholder-theme-muted bg-theme-input theme-transition"
               />
             </div>
           </div>
           
-          {hasActiveFilters && (
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(filters).map(([key, value]) => value && (
-                  <span
-                    key={key}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800"
-                  >
-                    {key}: {value}
-                    <button
-                      onClick={() => updateFilter(key as keyof SearchFilters, '')}
-                      className="ml-2 text-blue-600 hover:text-blue-800"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
-                {query.trim() && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800">
-                    name: {query}
-                    <button
-                      onClick={() => setQuery('')}
-                      className="ml-2 text-green-600 hover:text-green-800"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
+          <div className="flex justify-end space-x-3 mt-6">
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="px-4 py-2 text-theme-secondary hover:text-theme-primary transition-colors theme-transition"
+            >
+              Clear All
+            </button>
+            <button
+              type="button"
+              onClick={() => onSearch(query, filters)}
+              disabled={isLoading}
+              className="bg-theme-primary text-white px-4 py-2 rounded-md hover:bg-theme-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
+            >
+              Apply Filters
+            </button>
+          </div>
         </div>
       )}
     </div>

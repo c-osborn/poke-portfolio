@@ -50,12 +50,12 @@ export default function Logo({ className = '', onClick }: LogoProps) {
         <div className="absolute top-4 left-1 w-1 h-1 bg-cyan-300 rounded-full animate-sparkle-2 shadow-sm"></div>
       </div>
       
-      {/* Modern Typography - Single line, black text */}
+      {/* Modern Typography - Theme-aware text */}
       <div className="flex items-center space-x-2">
-        <span className="text-2xl font-black text-black">
+        <span className="text-2xl font-black text-theme-primary animate-text-glow">
           Poké
         </span>
-        <span className="text-2xl font-black text-black">
+        <span className="text-2xl font-black text-theme-primary animate-text-glow-delayed">
           Portfolio
         </span>
       </div>

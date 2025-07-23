@@ -32,13 +32,13 @@ export default function PortfolioSummary({ cards, onUpdatePrices }: PortfolioSum
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div className="bg-theme-card border border-theme-border rounded-lg shadow-theme p-6 mb-8 theme-transition">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Portfolio Summary</h3>
+        <h3 className="text-lg font-semibold text-theme-primary">Portfolio Summary</h3>
         <button
           onClick={handleUpdatePrices}
           disabled={isUpdating}
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-theme-primary text-white rounded-md hover:bg-theme-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors theme-transition"
         >
           <RefreshCw className={`w-4 h-4 ${isUpdating ? 'animate-spin' : ''}`} />
           <span>{isUpdating ? 'Updating...' : 'Update Values'}</span>
@@ -46,31 +46,31 @@ export default function PortfolioSummary({ cards, onUpdatePrices }: PortfolioSum
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="flex items-center space-x-3 p-4 bg-green-50 rounded-lg">
-          <DollarSign className="w-6 h-6 text-green-600" />
+        <div className="flex items-center space-x-3 p-4 bg-theme-card border border-theme-border rounded-lg theme-transition">
+          <DollarSign className="w-6 h-6 text-theme-success" />
           <div>
-            <p className="text-sm text-gray-600">Total Value</p>
-            <p className="text-xl font-bold text-green-600">
+            <p className="text-sm text-theme-secondary">Total Value</p>
+            <p className="text-xl font-bold text-theme-success">
               ${totalValue.toFixed(2)}
             </p>
           </div>
         </div>
         
-        <div className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg">
-          <Package className="w-6 h-6 text-blue-600" />
+        <div className="flex items-center space-x-3 p-4 bg-theme-card border border-theme-border rounded-lg theme-transition">
+          <Package className="w-6 h-6 text-theme-primary" />
           <div>
-            <p className="text-sm text-gray-600">Total Cards</p>
-            <p className="text-xl font-bold text-blue-600">
+            <p className="text-sm text-theme-secondary">Total Cards</p>
+            <p className="text-xl font-bold text-theme-primary">
               {totalCards}
             </p>
           </div>
         </div>
         
-        <div className="flex items-center space-x-3 p-4 bg-purple-50 rounded-lg">
-          <Package className="w-6 h-6 text-purple-600" />
+        <div className="flex items-center space-x-3 p-4 bg-theme-card border border-theme-border rounded-lg theme-transition">
+          <Package className="w-6 h-6 text-theme-secondary" />
           <div>
-            <p className="text-sm text-gray-600">Unique Cards</p>
-            <p className="text-xl font-bold text-purple-600">
+            <p className="text-sm text-theme-secondary">Unique Cards</p>
+            <p className="text-xl font-bold text-theme-secondary">
               {uniqueCards}
             </p>
           </div>

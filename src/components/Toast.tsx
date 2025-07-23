@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CheckCircle, X } from 'lucide-react';
+import { CheckCircle, X, AlertCircle, Info } from 'lucide-react';
 
 interface ToastProps {
   message: string;
@@ -28,13 +28,13 @@ export default function Toast({ message, isVisible, onClose, type = 'success' }:
   const getToastStyles = () => {
     switch (type) {
       case 'success':
-        return 'bg-green-500 border-green-600';
+        return 'bg-theme-success border-theme-success';
       case 'error':
-        return 'bg-red-500 border-red-600';
+        return 'bg-theme-error border-theme-error';
       case 'info':
-        return 'bg-blue-500 border-blue-600';
+        return 'bg-theme-primary border-theme-primary';
       default:
-        return 'bg-green-500 border-green-600';
+        return 'bg-theme-success border-theme-success';
     }
   };
 
@@ -43,9 +43,9 @@ export default function Toast({ message, isVisible, onClose, type = 'success' }:
       case 'success':
         return <CheckCircle className="w-5 h-5" />;
       case 'error':
-        return <X className="w-5 h-5" />;
+        return <AlertCircle className="w-5 h-5" />;
       case 'info':
-        return <CheckCircle className="w-5 h-5" />;
+        return <Info className="w-5 h-5" />;
       default:
         return <CheckCircle className="w-5 h-5" />;
     }
@@ -60,7 +60,7 @@ export default function Toast({ message, isVisible, onClose, type = 'success' }:
           transform transition-all duration-300 ease-in-out
           ${isAnimating ? 'translate-x-0 opacity-100 scale-100' : 'translate-x-full opacity-0 scale-95'}
           ${getToastStyles()}
-          border-2 rounded-lg shadow-lg p-4 text-white flex items-center space-x-3 min-w-64
+          border-2 rounded-lg shadow-theme-lg p-4 text-white flex items-center space-x-3 min-w-64 theme-transition
         `}
       >
         <div className="flex-shrink-0">
@@ -74,7 +74,7 @@ export default function Toast({ message, isVisible, onClose, type = 'success' }:
             setIsAnimating(false);
             setTimeout(onClose, 300);
           }}
-          className="flex-shrink-0 text-white hover:text-gray-200 transition-colors"
+          className="flex-shrink-0 text-white hover:opacity-80 transition-colors theme-transition"
         >
           <X className="w-4 h-4" />
         </button>

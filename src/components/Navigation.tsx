@@ -2,6 +2,7 @@
 
 import { Search, Briefcase } from 'lucide-react';
 import Logo from './Logo';
+import ThemeToggle from './ThemeToggle';
 
 interface NavigationProps {
   activeTab: 'search' | 'portfolio';
@@ -18,35 +19,31 @@ export default function Navigation({ activeTab, onTabChange, onReset }: Navigati
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b">
+    <nav className="bg-theme-nav shadow-theme border-b border-theme-nav theme-transition">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Logo onClick={handleTitleClick} />
           </div>
-          <div className="flex space-x-8">
+          <div className="flex items-center space-x-6">
+            {/* Show only the active tab button */}
             <button
-              onClick={() => onTabChange('search')}
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                activeTab === 'search'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-              }`}
+              onClick={() => onTabChange(activeTab === 'search' ? 'portfolio' : 'search')}
+              className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors theme-transition bg-theme-primary text-white shadow-theme"
             >
-              <Search className="w-4 h-4 mr-2" />
-              Search Cards
+              {activeTab === 'search' ? (
+                <>
+                  <Briefcase className="w-4 h-4 mr-2" />
+                  My Portfolio
+                </>
+              ) : (
+                <>
+                  <Search className="w-4 h-4 mr-2" />
+                  Search Cards
+                </>
+              )}
             </button>
-            <button
-              onClick={() => onTabChange('portfolio')}
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                activeTab === 'portfolio'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              <Briefcase className="w-4 h-4 mr-2" />
-              My Portfolio
-            </button>
+            <ThemeToggle />
           </div>
         </div>
       </div>

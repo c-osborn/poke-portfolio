@@ -24,7 +24,7 @@ export default function CardGrid({
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="bg-gray-200 rounded-lg h-80 animate-pulse"></div>
+          <div key={i} className="bg-theme-card border border-theme-border rounded-lg h-80 animate-pulse theme-transition"></div>
         ))}
       </div>
     );
@@ -33,7 +33,7 @@ export default function CardGrid({
   if (cards.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 text-lg">
+        <p className="text-theme-secondary text-lg">
           {isPortfolio ? 'No cards in your portfolio yet.' : 'No cards found. Try a different search term.'}
         </p>
       </div>
@@ -48,8 +48,8 @@ export default function CardGrid({
         if (isPortfolioCard) {
           const portfolioCard = card as PortfolioCard;
           return (
-            <div key={portfolioCard.card_id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative bg-gray-100">
+            <div key={portfolioCard.card_id} className="bg-theme-card border border-theme-border rounded-lg shadow-theme overflow-hidden hover:shadow-theme-lg transition-all duration-200 theme-transition">
+              <div className="relative bg-theme-card">
                 <img
                   src={portfolioCard.image_url}
                   alt={portfolioCard.name}
@@ -59,14 +59,14 @@ export default function CardGrid({
                     target.src = '/placeholder-card.png';
                   }}
                 />
-                <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-full text-sm font-bold">
+                <div className="absolute top-2 right-2 bg-theme-primary text-white px-2 py-1 rounded-full text-sm font-bold">
                   x{portfolioCard.quantity}
                 </div>
                 <div className="absolute bottom-2 right-2 flex space-x-2">
                   {onEditCard && (
                     <button
                       onClick={() => onEditCard(portfolioCard)}
-                      className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
+                      className="bg-theme-primary text-white p-2 rounded-full hover:bg-theme-primary-hover transition-colors theme-transition"
                       title="Edit card"
                     >
                       <Edit className="w-4 h-4" />
@@ -75,7 +75,7 @@ export default function CardGrid({
                   {onRemoveFromPortfolio && (
                     <button
                       onClick={() => onRemoveFromPortfolio(portfolioCard.card_id)}
-                      className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                      className="bg-theme-error text-white p-2 rounded-full hover:opacity-80 transition-colors theme-transition"
                       title="Remove from portfolio"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -84,13 +84,13 @@ export default function CardGrid({
                 </div>
               </div>
               <div className="p-4">
-                <h3 className="font-semibold text-lg mb-2 truncate text-gray-900">{portfolioCard.name}</h3>
-                <p className="text-gray-600 text-sm mb-1">{portfolioCard.set_name}</p>
+                <h3 className="font-semibold text-lg mb-2 truncate text-theme-primary">{portfolioCard.name}</h3>
+                <p className="text-theme-secondary text-sm mb-1">{portfolioCard.set_name}</p>
                 {portfolioCard.rarity && (
-                  <p className="text-gray-500 text-xs mb-2">{portfolioCard.rarity}</p>
+                  <p className="text-theme-muted text-xs mb-2">{portfolioCard.rarity}</p>
                 )}
                 {portfolioCard.price && (
-                  <p className="text-green-600 font-semibold">
+                  <p className="text-theme-success font-semibold">
                     ${portfolioCard.price.toFixed(2)}
                   </p>
                 )}
@@ -98,13 +98,13 @@ export default function CardGrid({
             </div>
           );
         } else {
-          const pokemonCard = card as PokemonCard;
+          const searchCard = card as PokemonCard;
           return (
-            <div key={pokemonCard.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative bg-gray-100">
+            <div key={searchCard.id} className="bg-theme-card border border-theme-border rounded-lg shadow-theme overflow-hidden hover:shadow-theme-lg transition-all duration-200 theme-transition">
+              <div className="relative bg-theme-card">
                 <img
-                  src={pokemonCard.images.small}
-                  alt={pokemonCard.name}
+                  src={searchCard.images?.small || searchCard.images?.large || '/placeholder-card.png'}
+                  alt={searchCard.name}
                   className="w-full h-auto max-h-64 object-contain mx-auto"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
@@ -112,20 +112,27 @@ export default function CardGrid({
                   }}
                 />
                 {onAddToPortfolio && (
-                  <button
-                    onClick={() => onAddToPortfolio(pokemonCard)}
-                    className="absolute bottom-2 right-2 bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition-colors"
-                    title="Add to portfolio"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
+                  <div className="absolute bottom-2 right-2">
+                    <button
+                      onClick={() => onAddToPortfolio(searchCard)}
+                      className="bg-theme-success text-white p-2 rounded-full hover:opacity-80 transition-colors theme-transition"
+                      title="Add to portfolio"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
                 )}
               </div>
               <div className="p-4">
-                <h3 className="font-semibold text-lg mb-2 truncate text-gray-900">{pokemonCard.name}</h3>
-                <p className="text-gray-600 text-sm mb-1">{pokemonCard.set.name}</p>
-                {pokemonCard.rarity && (
-                  <p className="text-gray-500 text-xs mb-2">{pokemonCard.rarity}</p>
+                <h3 className="font-semibold text-lg mb-2 truncate text-theme-primary">{searchCard.name}</h3>
+                <p className="text-theme-secondary text-sm mb-1">{searchCard.set?.name || 'Unknown Set'}</p>
+                {searchCard.rarity && (
+                  <p className="text-theme-muted text-xs mb-2">{searchCard.rarity}</p>
+                )}
+                {searchCard.cardmarket?.prices?.averageSellPrice && (
+                  <p className="text-theme-success font-semibold">
+                    ${searchCard.cardmarket.prices.averageSellPrice.toFixed(2)}
+                  </p>
                 )}
               </div>
             </div>

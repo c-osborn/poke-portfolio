@@ -289,17 +289,17 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-theme-background theme-transition">
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} onReset={handleReset} />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'search' ? (
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl font-bold text-theme-primary mb-4">
                 Search Pokémon Cards
               </h2>
-              <p className="text-gray-600 mb-8">
+              <p className="text-theme-secondary mb-8">
                 Find and add your favorite Pokémon cards to your portfolio
               </p>
               <SearchBar onSearch={handleSearch} isLoading={isSearching} />
@@ -339,10 +339,10 @@ export default function Home() {
         ) : (
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl font-bold text-theme-primary mb-4">
                 My Portfolio
               </h2>
-              <p className="text-gray-600 mb-8">
+              <p className="text-theme-secondary mb-8">
                 Your collection of Pokémon cards
               </p>
             </div>
