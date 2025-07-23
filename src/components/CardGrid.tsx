@@ -62,7 +62,20 @@ export default function CardGrid({
                 <div className="absolute top-2 right-2 bg-theme-primary text-white px-2 py-1 rounded-full text-sm font-bold">
                   x{portfolioCard.quantity}
                 </div>
-                <div className="absolute bottom-2 right-2 flex space-x-2">
+              </div>
+              <div className="p-4">
+                <h3 className="font-semibold text-lg mb-2 truncate text-theme-primary">{portfolioCard.name}</h3>
+                <p className="text-theme-secondary text-sm mb-1">{portfolioCard.set_name}</p>
+                {portfolioCard.rarity && (
+                  <p className="text-theme-muted text-xs mb-2">{portfolioCard.rarity}</p>
+                )}
+                {portfolioCard.price && (
+                  <p className="text-theme-success font-semibold mb-3">
+                    ${portfolioCard.price.toFixed(2)}
+                  </p>
+                )}
+                {/* Action buttons moved to bottom */}
+                <div className="flex justify-end space-x-2">
                   {onEditCard && (
                     <button
                       onClick={() => onEditCard(portfolioCard)}
@@ -83,18 +96,6 @@ export default function CardGrid({
                   )}
                 </div>
               </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-lg mb-2 truncate text-theme-primary">{portfolioCard.name}</h3>
-                <p className="text-theme-secondary text-sm mb-1">{portfolioCard.set_name}</p>
-                {portfolioCard.rarity && (
-                  <p className="text-theme-muted text-xs mb-2">{portfolioCard.rarity}</p>
-                )}
-                {portfolioCard.price && (
-                  <p className="text-theme-success font-semibold">
-                    ${portfolioCard.price.toFixed(2)}
-                  </p>
-                )}
-              </div>
             </div>
           );
         } else {
@@ -111,17 +112,6 @@ export default function CardGrid({
                     target.src = '/placeholder-card.png';
                   }}
                 />
-                {onAddToPortfolio && (
-                  <div className="absolute bottom-2 right-2">
-                    <button
-                      onClick={() => onAddToPortfolio(searchCard)}
-                      className="bg-theme-success text-white p-2 rounded-full hover:opacity-80 transition-colors theme-transition"
-                      title="Add to portfolio"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                )}
               </div>
               <div className="p-4">
                 <h3 className="font-semibold text-lg mb-2 truncate text-theme-primary">{searchCard.name}</h3>
@@ -130,9 +120,21 @@ export default function CardGrid({
                   <p className="text-theme-muted text-xs mb-2">{searchCard.rarity}</p>
                 )}
                 {searchCard.cardmarket?.prices?.averageSellPrice && (
-                  <p className="text-theme-success font-semibold">
+                  <p className="text-theme-success font-semibold mb-3">
                     ${searchCard.cardmarket.prices.averageSellPrice.toFixed(2)}
                   </p>
+                )}
+                {/* Add to portfolio button moved to bottom */}
+                {onAddToPortfolio && (
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => onAddToPortfolio(searchCard)}
+                      className="bg-theme-success text-white p-2 rounded-full hover:opacity-80 transition-colors theme-transition"
+                      title="Add to portfolio"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
