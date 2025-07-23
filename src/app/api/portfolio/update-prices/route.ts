@@ -32,88 +32,78 @@ export async function POST() {
         let updatedCount = 0;
         let errorCount = 0;
 
-        // Group cards by name to batch requests
-        const cardsByName = new Map<string, PortfolioCard[]>();
-        cards.forEach(card => {
-          if (!cardsByName.has(card.name)) {
-            cardsByName.set(card.name, []);
-          }
-          cardsByName.get(card.name)!.push(card);
-        });
-
-        // Update prices in batches
-        const batchSize = 10; // Process 10 cards at a time
-        const cardNames = Array.from(cardsByName.keys());
+        // Process cards in concurrent batches for faster updates
+        const batchSize = 20; // Increased batch size for better concurrency
+        const maxConcurrent = 5; // Limit concurrent requests to avoid rate limiting
         
-        for (let i = 0; i < cardNames.length; i += batchSize) {
-          const batch = cardNames.slice(i, i + batchSize);
+        for (let i = 0; i < cards.length; i += batchSize) {
+          const batch = cards.slice(i, i + batchSize);
           
-          try {
-            // Create a search query for this batch of cards
-            const searchQuery = batch.map(name => `name:"${name}"`).join(' OR ');
+          // Process batch with controlled concurrency
+          const batchPromises = batch.map(async (card, index) => {
+            // Stagger requests slightly to avoid overwhelming the API
+            await new Promise(resolve => setTimeout(resolve, index * 50));
             
-            // Fetch latest prices from Pokémon TCG API for this batch
-            const apiUrl = `https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent(searchQuery)}&pageSize=250`;
-            const response = await fetch(apiUrl, {
-              headers: {
-                'X-Api-Key': process.env.POKEMON_TCG_API_KEY || '',
-              },
-            });
-
-            if (response.ok) {
-              const data = await response.json();
-              const apiCards = data.data || [];
-
-              // Create a map of card names to their latest prices
-              const priceMap = new Map<string, number>();
-              apiCards.forEach((apiCard: any) => {
-                const price = apiCard.cardmarket?.prices?.averageSellPrice;
-                if (price && price > 0) {
-                  priceMap.set(apiCard.name, price);
-                }
+            try {
+              // Use the specific card ID to get exact card data
+              const apiUrl = `https://api.pokemontcg.io/v2/cards/${card.card_id}`;
+              const response = await fetch(apiUrl, {
+                headers: {
+                  'X-Api-Key': process.env.POKEMON_TCG_API_KEY || '',
+                },
               });
 
-              // Update prices for cards in this batch
-              for (const cardName of batch) {
-                const newPrice = priceMap.get(cardName);
-                if (newPrice !== undefined) {
-                  const cardsToUpdate = cardsByName.get(cardName) || [];
+              if (response.ok) {
+                const data = await response.json();
+                const apiCard = data.data;
+                
+                if (apiCard && apiCard.cardmarket?.prices?.averageSellPrice) {
+                  const newPrice = apiCard.cardmarket.prices.averageSellPrice;
                   
-                  for (const card of cardsToUpdate) {
-                    await new Promise<void>((resolveUpdate) => {
-                      db.run(
-                        'UPDATE portfolio_cards SET price = ? WHERE card_id = ?',
-                        [newPrice, card.card_id],
-                        (updateErr) => {
-                          if (updateErr) {
-                            console.error('Error updating card price:', updateErr);
-                            errorCount++;
-                          } else {
-                            updatedCount++;
-                          }
-                          resolveUpdate();
+                  // Update the card price in database
+                  return new Promise<{ success: boolean; cardId: string }>((resolveUpdate) => {
+                    db.run(
+                      'UPDATE portfolio_cards SET price = ? WHERE card_id = ?',
+                      [newPrice, card.card_id],
+                      (updateErr) => {
+                        if (updateErr) {
+                          console.error('Error updating card price:', updateErr);
+                          resolveUpdate({ success: false, cardId: card.card_id });
+                        } else {
+                          resolveUpdate({ success: true, cardId: card.card_id });
                         }
-                      );
-                    });
-                  }
+                      }
+                    );
+                  });
                 } else {
-                  // If no price found, count as error
-                  const cardsToUpdate = cardsByName.get(cardName) || [];
-                  errorCount += cardsToUpdate.length;
+                  console.log(`No price data available for card ${card.card_id} (${card.name})`);
+                  return { success: false, cardId: card.card_id };
                 }
+              } else {
+                console.error(`Failed to fetch card ${card.card_id} (${card.name}):`, response.status);
+                return { success: false, cardId: card.card_id };
               }
-            } else {
-              console.error(`Failed to fetch prices for batch ${i / batchSize + 1}:`, response.status);
-              errorCount += batch.length;
+            } catch (error) {
+              console.error(`Error updating card ${card.card_id} (${card.name}):`, error);
+              return { success: false, cardId: card.card_id };
             }
+          });
 
-            // Add a small delay between batches to avoid rate limiting
-            if (i + batchSize < cardNames.length) {
-              await new Promise(resolve => setTimeout(resolve, 200));
+          // Wait for all requests in this batch to complete
+          const results = await Promise.all(batchPromises);
+          
+          // Count successes and failures
+          results.forEach(result => {
+            if (result.success) {
+              updatedCount++;
+            } else {
+              errorCount++;
             }
-          } catch (error) {
-            console.error(`Error updating batch ${i / batchSize + 1}:`, error);
-            errorCount += batch.length;
+          });
+
+          // Reduced delay between batches since we're using controlled concurrency
+          if (i + batchSize < cards.length) {
+            await new Promise(resolve => setTimeout(resolve, 100));
           }
         }
 
